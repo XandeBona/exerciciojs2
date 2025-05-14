@@ -1,0 +1,20 @@
+.div_form {
+    background-color: rgb(206, 204, 202);
+    width: 300px;
+    height: 100px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.div_form label {
+    margin-left: 8px;
+}
+
+.div_form input {
+    margin-top: 8px;
+}
+
+table th, td {
+    border: 1px solid;
+    border-collapse: collapse;
+}
