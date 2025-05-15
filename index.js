@@ -36,19 +36,20 @@ function salvarUsuario() {
     const userPassword = document.getElementById("user_password");
     const userPasswordValue = userPassword.value;
 
-    //Chama a funcao para adicionar na tela
+    //Chama a funcao para adicionar os dados na tela
     adicionarUsuarioTabela(userNameValue, userEmailValue, userPasswordValue);
 
     //Storage
-    listaDeUsuarios.push(userNameValue);
+    listaDeUsuarios.push([userNameValue, userEmailValue, userPasswordValue]);
     localStorage.setItem("tabela_usuarios", JSON.stringify(listaDeUsuarios));
 }
 
+//Funcao para armazenar dados no browser
 function carregarUsuarios() {
     const storage = JSON.parse(localStorage.getItem("tabela_usuarios"));
     listaDeUsuarios = storage ? storage : [];
-    for (let usuarios of listaDeUsuarios) {
-        adicionarUsuarioTabela(usuarios);
+    for (let usuario of listaDeUsuarios) {
+        adicionarUsuarioTabela(usuario[0], usuario[1], usuario[2]);
     }
 }
 
