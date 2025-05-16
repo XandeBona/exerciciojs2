@@ -2,53 +2,56 @@
 let listaDeUsuarios = [];
 
 //Funcao para adicionar os dados na tabela
-function adicionarUsuarioTabela(userNameValue, userEmailValue, userPasswordValue) {
-    //Cria uma nova linha na tabela
-    const linhaNova = document.createElement('tr');
-    //Cria uma nova coluna (nome)
-    const userTable = document.createElement('td');
-    userTable.innerText = userNameValue;
-    //Cria uma nova coluna (email)
+function adicionarUsuarioTabela(nome, email, password) {
+    //Cria novos elementos para a tabela, linha e colunas
+    const newLine = document.createElement('tr');
+    const nameTable = document.createElement('td');
     const emailTable = document.createElement('td');
-    emailTable.innerText = userEmailValue;
-    //Cria uma nova coluna (senha)
     const passwordTable = document.createElement('td');
-    passwordTable.innerText = userPasswordValue;
     //Cria checkbox na tabela
     const checkboxTable = document.createElement('td');
     const checkboxTableInput = document.createElement('input');
     checkboxTableInput.setAttribute('type', 'checkbox');
     checkboxTableInput.setAttribute('id', 'checkbox_remove');
+
+    //Informa os valores para as colunas
+    nameTable.innerText = nome;
+    emailTable.innerText = email;
+    passwordTable.innerText = password;
+
+    //Vincula as colunas com a nova linha
+    newLine.appendChild(nameTable);
+    newLine.appendChild(emailTable);
+    newLine.appendChild(passwordTable);
+    newLine.appendChild(checkboxTable);
     
     //Variável para adicionar os dados na tabela do html
-    const listaUsuarios = document.getElementById("tabela_usuarios");
+    const userList = document.getElementById("tabela_usuarios");
 
-    //Utiliza a variável criada à cima para adicionar os dados às novas linhas da tabela
-    listaUsuarios.appendChild(linhaNova);
-    listaUsuarios.appendChild(userTable);
-    listaUsuarios.appendChild(emailTable);
-    listaUsuarios.appendChild(passwordTable);
-    listaUsuarios.appendChild(checkboxTable);
+    //Utiliza a variável criada à cima para adicionar os dados à nova linha da tabela
+    userList.appendChild(newLine);
     checkboxTable.appendChild(checkboxTableInput);
 }
 
 //Funcao para obter os dados nos inputs
 function salvarUsuario() {
-    //Obtém o nome do usuario informado no input
+    //Obtém o nome do usuario, email e senha informados nos input
     const userName = document.getElementById("user_name");
-    const userNameValue = userName.value;
-    //Obtém o email do usuario informado no input
     const userEmail = document.getElementById("user_email");
-    const userEmailValue = userEmail.value;
-    //Obtém a senha do usuario informada no input
     const userPassword = document.getElementById("user_password");
-    const userPasswordValue = userPassword.value;
+
+    //Cria novo objeto com valores de nome, email e senha
+    const novoUsuario = {
+        nome: userName.value,
+        email: userEmail.value,
+        password: userPassword.value,
+    }
 
     //Chama a funcao para adicionar os dados na tela
-    adicionarUsuarioTabela(userNameValue, userEmailValue, userPasswordValue);
+    adicionarUsuarioTabela(novoUsuario.nome, novoUsuario.email, novoUsuario.password);
 
     //Storage
-    listaDeUsuarios.push([userNameValue, userEmailValue, userPasswordValue]);
+    listaDeUsuarios.push(novoUsuario.nome, novoUsuario.email, novoUsuario.password);
     localStorage.setItem("tabela_usuarios", JSON.stringify(listaDeUsuarios));
 }
 
@@ -75,7 +78,10 @@ function carregarUsuarios() {
     const storage = JSON.parse(localStorage.getItem("tabela_usuarios"));
     listaDeUsuarios = storage ? storage : [];
     for (let usuario of listaDeUsuarios) {
-        adicionarUsuarioTabela(usuario[0], usuario[1], usuario[2]);
+        nome = usuario.nome;
+        email = usuario.email;
+        password = usuario.password;
+        adicionarUsuarioTabela(nome, email, password);
     }
 }
 
