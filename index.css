@@ -24,6 +24,7 @@ td {
     width: 15.5%;
     border-collapse: collapse;
     font-size: 14px;
+    margin-bottom: 10px;
 }
 
 .tabela-usuarios th,

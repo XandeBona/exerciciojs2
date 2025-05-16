@@ -14,6 +14,12 @@ function adicionarUsuarioTabela(userNameValue, userEmailValue, userPasswordValue
     //Cria uma nova coluna (senha)
     const passwordTable = document.createElement('td');
     passwordTable.innerText = userPasswordValue;
+    //Cria checkbox na tabela
+    const checkboxTable = document.createElement('td');
+    const checkboxTableInput = document.createElement('input');
+    checkboxTableInput.setAttribute('type', 'checkbox');
+    checkboxTableInput.setAttribute('id', 'checkbox_remove');
+    
     //Variável para adicionar os dados na tabela do html
     const listaUsuarios = document.getElementById("tabela_usuarios");
 
@@ -22,6 +28,8 @@ function adicionarUsuarioTabela(userNameValue, userEmailValue, userPasswordValue
     listaUsuarios.appendChild(userTable);
     listaUsuarios.appendChild(emailTable);
     listaUsuarios.appendChild(passwordTable);
+    listaUsuarios.appendChild(checkboxTable);
+    checkboxTable.appendChild(checkboxTableInput);
 }
 
 //Funcao para obter os dados nos inputs
@@ -44,6 +52,24 @@ function salvarUsuario() {
     localStorage.setItem("tabela_usuarios", JSON.stringify(listaDeUsuarios));
 }
 
+//Funcao para remover usuários
+function removerUsuario(carregarUsuarios) {
+    console.log("botao remover funcionando");
+    const checkbox = document.getElementById('checkbox_remove');
+    
+    if (checkbox.checked) {
+        carregarUsuarios.removeItem(usuario[0], usuario[1], usuario[2]);
+        console.log("Dados removidos")
+    }
+
+}
+
+//Funcao para validar se o checkbox está true
+function checkboxRemove() {
+    const checkbox = document.getElementById("checkbox_remove");
+    checkbox.addEventListener('change', removerUsuario);
+}
+
 //Funcao para armazenar dados no browser
 function carregarUsuarios() {
     const storage = JSON.parse(localStorage.getItem("tabela_usuarios"));
@@ -57,6 +83,8 @@ function gerenciarEventos() {
     carregarUsuarios();
     const botaoEnviar = document.getElementById("user_button");
     botaoEnviar.addEventListener("click", salvarUsuario);
+    const botaoRemover = document.getElementById("delete_button");
+    botaoRemover.addEventListener("click", removerUsuario);
 }
 
 window.addEventListener("load", gerenciarEventos);
