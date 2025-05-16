@@ -24,7 +24,7 @@ function adicionarUsuarioTabela(nome, email, password) {
     newLine.appendChild(emailTable);
     newLine.appendChild(passwordTable);
     newLine.appendChild(checkboxTable);
-    
+
     //Variável para adicionar os dados na tabela do html
     const userList = document.getElementById("tabela_usuarios");
 
@@ -51,17 +51,17 @@ function salvarUsuario() {
     adicionarUsuarioTabela(novoUsuario.nome, novoUsuario.email, novoUsuario.password);
 
     //Storage
-    listaDeUsuarios.push(novoUsuario.nome, novoUsuario.email, novoUsuario.password);
+    listaDeUsuarios.push(novoUsuario);
     localStorage.setItem("tabela_usuarios", JSON.stringify(listaDeUsuarios));
 }
 
 //Funcao para remover usuários
-function removerUsuario(carregarUsuarios) {
+function removerUsuario(carregarUsuarios, salvarUsuario) {
     console.log("botao remover funcionando");
     const checkbox = document.getElementById('checkbox_remove');
-    
+
     if (checkbox.checked) {
-        carregarUsuarios.removeItem(usuario[0], usuario[1], usuario[2]);
+        carregarUsuarios.removeItem(novoUsuario);
         console.log("Dados removidos")
     }
 
