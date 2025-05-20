@@ -12,7 +12,7 @@ function adicionarUsuarioTabela(nome, email, password) {
     const checkboxTable = document.createElement('td');
     const checkboxTableInput = document.createElement('input');
     checkboxTableInput.setAttribute('type', 'checkbox');
-    checkboxTableInput.setAttribute('id', 'checkbox_remove');
+    checkboxTableInput.setAttribute('class', 'checkbox_remove');
 
     //Informa os valores para as colunas
     nameTable.innerText = nome;
@@ -56,15 +56,46 @@ function salvarUsuario() {
 }
 
 //Funcao para remover usuários
-function removerUsuario(carregarUsuarios, salvarUsuario) {
-    console.log("botao remover funcionando");
-    const checkbox = document.getElementById('checkbox_remove');
+function removerUsuario() {
+    // Obtem todas as linhas da tabela
+    const tabela = document.getElementById("tabela_usuarios");
+    const linhas = tabela.getElementsByTagName("tr");
 
-    if (checkbox.checked) {
-        carregarUsuarios.removeItem(novoUsuario);
-        console.log("Dados removidos")
+    // Nova lista para armazenar apenas os usuários que não foram marcados
+    const novaLista = [];
+
+    // Array temporário para armazenar as linhas que devem ser removidas
+    const linhasParaRemover = [];
+
+    // Percorre as linhas da tabela
+    for (let i = 0; i < linhas.length; i++) {
+        const linha = linhas[i];
+        const checkbox = linha.querySelector("input[type='checkbox']");
+
+        // Se checkbox estiver marcado, marca para remover da lista
+        if (checkbox && checkbox.checked) {
+            linhasParaRemover.push(linha);
+        } else {
+            // Se não estiver marcado, o usuário continuará na lista
+            const colunas = linha.getElementsByTagName("td");
+            if (colunas.length >= 3) {
+                const nome = colunas[0].innerText;
+                const email = colunas[1].innerText;
+                const password = colunas[2].innerText;
+
+                novaLista.push({ nome, email, password });
+            }
+        }
     }
 
+    // Remove as linhas da tabela
+    for (let linha of linhasParaRemover) {
+        tabela.removeChild(linha);
+    }
+
+    // Atualiza a lista global e o localStorage
+    listaDeUsuarios = novaLista;
+    localStorage.setItem("tabela_usuarios", JSON.stringify(listaDeUsuarios));
 }
 
 //Funcao para validar se o checkbox está true
